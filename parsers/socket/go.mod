@@ -6,7 +6,7 @@ require github.com/zishang520/socket.io/v3 v3.0.2
 
 require (
 	github.com/dunglas/httpsfv v1.1.0 // indirect
-	github.com/gookit/color v1.6.0 // indirect
+	github.com/gookit/color v1.6.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.59.0 // indirect

@@ -3,7 +3,7 @@ module github.com/zishang520/socket.io/adapters/redis/v3
 go 1.26.0
 
 require (
-	github.com/redis/go-redis/v9 v9.18.0
+	github.com/redis/go-redis/v9 v9.19.0
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 	github.com/zishang520/socket.io/adapters/adapter/v3 v3.0.2
 	github.com/zishang520/socket.io/parsers/socket/v3 v3.0.2
@@ -14,11 +14,10 @@ require (
 require (
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dunglas/httpsfv v1.1.0 // indirect
-	github.com/gookit/color v1.6.0 // indirect
+	github.com/gookit/color v1.6.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
-	github.com/klauspost/compress v1.18.5 // indirect
+	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.59.0 // indirect
 	github.com/quic-go/webtransport-go v0.10.0 // indirect

@@ -7,15 +7,15 @@ require (
 	github.com/zishang520/socket.io/parsers/socket/v3 v3.0.2
 	github.com/zishang520/socket.io/servers/socket/v3 v3.0.2
 	github.com/zishang520/socket.io/v3 v3.0.2
-	go.mongodb.org/mongo-driver/v2 v2.5.1
+	go.mongodb.org/mongo-driver/v2 v2.6.0
 )
 
 require (
 	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/dunglas/httpsfv v1.1.0 // indirect
-	github.com/gookit/color v1.6.0 // indirect
+	github.com/gookit/color v1.6.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
-	github.com/klauspost/compress v1.18.5 // indirect
+	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.59.0 // indirect
 	github.com/quic-go/webtransport-go v0.10.0 // indirect
