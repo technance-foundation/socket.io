@@ -2,10 +2,10 @@
 package engine
 
 import (
-	"context"
 	"encoding/json"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/websocket"
 	"github.com/quic-go/webtransport-go"
@@ -207,6 +207,7 @@ func (s *server) onWebSocket(ctx *types.HttpContext, wsc *types.WebSocketConn) {
 		// transport error handling takes over
 		wsc.RemoveListener("error", onUpgradeError)
 
+		ctx.IdleTimeout = s.Opts().IdleTimeout()
 		transport, err := s.CreateTransport(transportName, ctx)
 		if err != nil {
 			serverLog.Debug("upgrading not existing transport")
@@ -248,7 +249,7 @@ func (s *server) OnWebTransportSession(ctx *types.HttpContext, wt *webtransport.
 		_ = session.CloseWithError(0, "")
 	}, s.Opts().UpgradeTimeout())
 
-	stream, err := session.AcceptStream(context.Background())
+	stream, err := session.AcceptStream(ctx.Context())
 	if err != nil {
 		serverLog.Debug("session is closed")
 		abortUpgrade(ctx, BAD_REQUEST, nil)
@@ -259,6 +260,10 @@ func (s *server) OnWebTransportSession(ctx *types.HttpContext, wt *webtransport.
 	wtc.SetReadLimit(s.Opts().MaxHttpBufferSize())
 
 	ctx.WebTransport = &types.WebTransportConn{EventEmitter: types.NewEventEmitter(), Conn: wtc}
+
+	if s.Opts().IdleTimeout() > 0 {
+		_ = wtc.SetReadDeadline(time.Now().Add(s.Opts().IdleTimeout()))
+	}
 
 	mt, message, err := wtc.NextReader()
 	if err != nil {
@@ -341,6 +346,7 @@ func (s *server) OnWebTransportSession(ctx *types.HttpContext, wt *webtransport.
 	} else {
 		serverLog.Debug("upgrading existing transport")
 
+		ctx.IdleTimeout = s.Opts().IdleTimeout()
 		transport, err := s.CreateTransport(ctx.Request().Proto, ctx)
 		if err != nil {
 			serverLog.Debug("upgrading not existing transport")

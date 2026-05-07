@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"sync"
+	"time"
 
 	ws "github.com/gorilla/websocket"
 	"github.com/zishang520/socket.io/parsers/engine/v3/packet"
@@ -141,7 +142,16 @@ func (w *websocket) _error(err error) {
 // This method processes incoming WebSocket messages and handles different message types.
 // It runs in a separate goroutine to continuously read messages from the connection.
 func (w *websocket) message() {
+	defer func() {
+		if !w.writeQueue.IsShuttingDown() {
+			w.socket.Emit("close")
+		}
+	}()
+
 	for {
+		if w.Opts().IdleTimeout() > 0 {
+			_ = w.socket.SetReadDeadline(time.Now().Add(w.Opts().IdleTimeout()))
+		}
 		mt, message, err := w.socket.NextReader()
 		if err != nil {
 			w._error(err)

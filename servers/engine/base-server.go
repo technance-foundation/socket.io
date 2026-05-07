@@ -99,6 +99,7 @@ func (bs *baseServer) Construct(opt any) {
 	options.SetPingInterval(25_000 * time.Millisecond)
 	options.SetUpgradeTimeout(10_000 * time.Millisecond)
 	options.SetMaxHttpBufferSize(1e6)
+	options.SetIdleTimeout(120 * time.Second)
 	options.SetTransports(types.NewSet(Polling, WebSocket))
 	options.SetAllowUpgrades(true)
 	options.SetHttpCompression(&types.HttpCompression{Threshold: 1024})
@@ -311,6 +312,7 @@ func (bs *baseServer) Handshake(transportName string, ctx *types.HttpContext) (*
 	id := bs.GenerateId(ctx)
 	serverLog.Debug(`handshaking client "%s" (%s)`, id, transportName)
 
+	ctx.IdleTimeout = bs.opts.IdleTimeout()
 	transport, err := bs._proto_.CreateTransport(transportName, ctx)
 	if err != nil {
 		serverLog.Debug(`handshaking client "%s" (%s)`, id, transportName)
@@ -324,13 +326,12 @@ func (bs *baseServer) Handshake(transportName string, ctx *types.HttpContext) (*
 		})
 		return BAD_REQUEST, nil
 	}
+
 	if transports.POLLING == transportName {
 		transport.SetMaxHttpBufferSize(bs.opts.MaxHttpBufferSize())
 		transport.SetHttpCompression(bs.opts.HttpCompression())
 	} else if transports.WEBSOCKET == transportName {
 		transport.SetPerMessageDeflate(bs.opts.PerMessageDeflate())
-	} else if transports.WEBTRANSPORT == transportName {
-		transport.SetMaxHttpBufferSize(bs.opts.MaxHttpBufferSize())
 	}
 
 	_ = transport.On("headers", func(args ...any) {

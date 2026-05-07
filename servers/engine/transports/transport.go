@@ -19,7 +19,7 @@ type transport struct {
 	// Prototype interface, used to implement interface method rewriting
 	_proto_ Transport
 
-	maxHttpBufferSize int64
+	maxHttpBufferSize atomic.Int64
 	httpCompression   *types.HttpCompression
 	perMessageDeflate *types.PerMessageDeflate
 
@@ -129,11 +129,11 @@ func (t *transport) SetPerMessageDeflate(perMessageDeflate *types.PerMessageDefl
 }
 
 func (t *transport) MaxHttpBufferSize() int64 {
-	return t.maxHttpBufferSize
+	return t.maxHttpBufferSize.Load()
 }
 
 func (t *transport) SetMaxHttpBufferSize(maxHttpBufferSize int64) {
-	t.maxHttpBufferSize = maxHttpBufferSize
+	t.maxHttpBufferSize.Store(maxHttpBufferSize)
 }
 
 // Transport Construct.

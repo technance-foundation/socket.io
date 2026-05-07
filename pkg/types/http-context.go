@@ -8,6 +8,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"time"
 )
 
 // Exported sentinel errors returned by HttpContext.
@@ -36,6 +37,7 @@ type HttpContext struct {
 
 	EventEmitter
 
+	IdleTimeout time.Duration
 	// Optional protocol upgrades. Set by the caller when applicable.
 	Websocket    *WebSocketConn
 	WebTransport *WebTransportConn

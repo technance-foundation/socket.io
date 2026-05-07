@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"sync"
+	"time"
 
 	wt "github.com/quic-go/webtransport-go"
 	"github.com/zishang520/socket.io/parsers/engine/v3/packet"
@@ -143,7 +144,16 @@ func (w *webTransport) _error(err error) {
 // message handles the WebTransport message reading loop.
 // This method processes incoming WebTransport messages and handles different message types.
 func (w *webTransport) message() {
+	defer func() {
+		if !w.writeQueue.IsShuttingDown() {
+			w.session.Emit("close")
+		}
+	}()
+
 	for {
+		if w.Opts().IdleTimeout() > 0 {
+			_ = w.session.SetReadDeadline(time.Now().Add(w.Opts().IdleTimeout()))
+		}
 		mt, message, err := w.session.NextReader()
 		if err != nil {
 			w._error(err)

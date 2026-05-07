@@ -106,6 +106,10 @@ type SocketOptionsInterface interface {
 	GetRawPerMessageDeflate() types.Optional[*types.PerMessageDeflate]
 	PerMessageDeflate() *types.PerMessageDeflate
 
+	SetIdleTimeout(time.Duration)
+	GetRawIdleTimeout() types.Optional[time.Duration]
+	IdleTimeout() time.Duration
+
 	SetPath(string)
 	GetRawPath() types.Optional[string]
 	Path() string
@@ -223,6 +227,11 @@ type SocketOptions struct {
 	// Set to nil to disable compression.
 	perMessageDeflate types.Optional[*types.PerMessageDeflate]
 
+	// idleTimeout specifies the maximum amount of time that may pass without sending
+	// or getting a message. Connection is closed if this timeout passes.
+	// Set to 0 to disable idle timeout.
+	idleTimeout types.Optional[time.Duration]
+
 	// path specifies the path to the Engine.IO endpoint on the server.
 	path types.Optional[string]
 
@@ -311,6 +320,9 @@ func (s *SocketOptions) Assign(data SocketOptionsInterface) SocketOptionsInterfa
 	}
 	if data.GetRawPerMessageDeflate() != nil {
 		s.SetPerMessageDeflate(data.PerMessageDeflate())
+	}
+	if data.GetRawIdleTimeout() != nil {
+		s.SetIdleTimeout(data.IdleTimeout())
 	}
 	if data.GetRawPath() != nil {
 		s.SetPath(data.Path())
@@ -645,6 +657,20 @@ func (s *SocketOptions) PerMessageDeflate() *types.PerMessageDeflate {
 	}
 
 	return s.perMessageDeflate.Get()
+}
+
+func (s *SocketOptions) SetIdleTimeout(idleTimeout time.Duration) {
+	s.idleTimeout = types.NewSome(idleTimeout)
+}
+func (s *SocketOptions) GetRawIdleTimeout() types.Optional[time.Duration] {
+	return s.idleTimeout
+}
+func (s *SocketOptions) IdleTimeout() time.Duration {
+	if s.idleTimeout == nil {
+		return 0
+	}
+
+	return s.idleTimeout.Get()
 }
 
 func (s *SocketOptions) SetPath(path string) {

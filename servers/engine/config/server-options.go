@@ -65,6 +65,10 @@ type (
 		SetAllowEIO3(bool)
 		GetRawAllowEIO3() types.Optional[bool]
 		AllowEIO3() bool
+
+		SetIdleTimeout(time.Duration)
+		GetRawIdleTimeout() types.Optional[time.Duration]
+		IdleTimeout() time.Duration
 	}
 
 	ServerOptions struct {
@@ -114,6 +118,11 @@ type (
 
 		// whether to enable compatibility with Socket.IO v2 clients
 		allowEIO3 types.Optional[bool]
+
+		// Maximum amount of seconds that may pass without sending or getting a message.
+		// Connection is closed if this timeout passes. Resolution (granularity) for
+		// timeouts are typically 4 seconds, rounded to closest. Disable by using 0.
+		idleTimeout types.Optional[time.Duration]
 	}
 )
 
@@ -164,6 +173,9 @@ func (s *ServerOptions) Assign(data ServerOptionsInterface) ServerOptionsInterfa
 	}
 	if data.GetRawAllowEIO3() != nil {
 		s.SetAllowEIO3(data.AllowEIO3())
+	}
+	if data.GetRawIdleTimeout() != nil {
+		s.SetIdleTimeout(data.IdleTimeout())
 	}
 
 	return s
@@ -372,4 +384,20 @@ func (s *ServerOptions) AllowEIO3() bool {
 	}
 
 	return s.allowEIO3.Get()
+}
+
+// Maximum amount of seconds that may pass without sending or getting a message.
+// Connection is closed if this timeout passes.
+func (s *ServerOptions) SetIdleTimeout(idleTimeout time.Duration) {
+	s.idleTimeout = types.NewSome(idleTimeout)
+}
+func (s *ServerOptions) GetRawIdleTimeout() types.Optional[time.Duration] {
+	return s.idleTimeout
+}
+func (s *ServerOptions) IdleTimeout() time.Duration {
+	if s.idleTimeout == nil {
+		return 0
+	}
+
+	return s.idleTimeout.Get()
 }

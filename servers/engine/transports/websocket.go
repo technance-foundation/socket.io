@@ -21,6 +21,8 @@ var wsLog = log.NewLog("engine:ws")
 type websocket struct {
 	Transport
 
+	idleTimeout time.Duration
+
 	socket     *types.WebSocketConn
 	mu         sync.Mutex
 	writeQueue *queue.Queue
@@ -46,6 +48,7 @@ func NewWebSocket(ctx *types.HttpContext) Websocket {
 func (w *websocket) Construct(ctx *types.HttpContext) {
 	w.Transport.Construct(ctx)
 
+	w.idleTimeout = ctx.IdleTimeout
 	w.socket = ctx.Websocket
 	w.writeQueue = queue.New()
 
@@ -83,14 +86,6 @@ func (w *websocket) _error(err error) {
 
 // Receiving Messages
 func (w *websocket) message() {
-	// Dead-connection safety net: if no data arrives within this window the
-	// underlying TCP connection is gone and engine.io's heartbeat failed to
-	// detect it (e.g. transport created before the ping timer was wired up).
-	// Active connections reset the deadline on every successful read, so the
-	// net effect is: close after 90 s of total silence.
-	const readDeadline = 90 * time.Second
-	_ = w.socket.SetReadDeadline(time.Now().Add(readDeadline))
-
 	// Guarantee cleanup on any exit path — covers errors that _error()
 	// routes as "error" (not "close") on the socket and any future paths
 	// that return without calling _error at all.
@@ -101,12 +96,14 @@ func (w *websocket) message() {
 	}()
 
 	for {
+		if w.idleTimeout > 0 {
+			_ = w.socket.SetReadDeadline(time.Now().Add(w.idleTimeout))
+		}
 		mt, message, err := w.socket.NextReader()
 		if err != nil {
 			w._error(err)
 			return
 		}
-		_ = w.socket.SetReadDeadline(time.Now().Add(readDeadline))
 
 		switch mt {
 		case ws.BinaryMessage:

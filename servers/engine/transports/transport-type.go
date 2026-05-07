@@ -63,6 +63,7 @@ type (
 		HttpCompression() *types.HttpCompression
 		PerMessageDeflate() *types.PerMessageDeflate
 		MaxHttpBufferSize() int64
+
 		// Abstract
 		HandlesUpgrades() bool
 		// Abstract

@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/zishang520/socket.io/parsers/engine/v3/packet"
 	"github.com/zishang520/socket.io/v3/pkg/log"
@@ -21,6 +22,8 @@ var (
 
 type webTransport struct {
 	Transport
+
+	idleTimeout time.Duration
 
 	session    *types.WebTransportConn
 	mu         sync.Mutex
@@ -47,6 +50,7 @@ func NewWebTransport(ctx *types.HttpContext) WebTransport {
 func (w *webTransport) Construct(ctx *types.HttpContext) {
 	w.Transport.Construct(ctx)
 
+	w.idleTimeout = ctx.IdleTimeout
 	w.session = ctx.WebTransport
 	w.writeQueue = queue.New()
 
@@ -84,7 +88,19 @@ func (w *webTransport) _error(err error) {
 
 // Receiving Messages
 func (w *webTransport) message() {
+	// Guarantee cleanup on any exit path — covers errors that _error()
+	// routes as "error" (not "close") on the socket and any future paths
+	// that return without calling _error at all.
+	defer func() {
+		if !w.writeQueue.IsShuttingDown() {
+			w.session.Emit("close")
+		}
+	}()
+
 	for {
+		if w.idleTimeout > 0 {
+			_ = w.session.SetReadDeadline(time.Now().Add(w.idleTimeout))
+		}
 		mt, message, err := w.session.NextReader()
 		if err != nil {
 			w._error(err)
