@@ -342,7 +342,7 @@ func (w *webTransport) doWrite(data types.BufferInterface, _ bool, writeErr ...*
 func (w *webTransport) DoClose() {
 	w.writeQueue.TryClose()
 	if w.session != nil {
-		defer func() { _ = w.session.CloseWithError(0, "") }()
+		_ = w.session.CloseWithError(0, "")
 	}
 }
 

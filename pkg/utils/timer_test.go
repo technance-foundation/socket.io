@@ -163,6 +163,6 @@ func TestTimerUnref(t *testing.T) {
 	time.Sleep(100 * time.Millisecond)
 
 	if atomic.LoadInt32(&called) != 1 {
-		t.Errorf("Expected timeout to fire even after Unref, got %d", called)
+		t.Errorf("Expected timeout to fire even after Unref, got %d", atomic.LoadInt32(&called))
 	}
 }

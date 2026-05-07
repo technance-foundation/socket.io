@@ -3,12 +3,24 @@ package socket_test
 import (
 	"fmt"
 	"log"
+	"net"
 	"time"
 
 	client "github.com/zishang520/socket.io/clients/socket/v3"
 	server "github.com/zishang520/socket.io/servers/socket/v3"
 	"github.com/zishang520/socket.io/v3/pkg/types"
 )
+
+// allocatePort allocates a random available port on 127.0.0.1
+func allocatePort() string {
+	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		log.Fatal(err)
+	}
+	port := ln.Addr().(*net.TCPAddr).Port
+	_ = ln.Close()
+	return fmt.Sprintf("127.0.0.1:%d", port)
+}
 
 // ExampleSocket_basic demonstrates the basic usage of Socket.IO client
 func ExampleSocket_basic() {
@@ -19,11 +31,12 @@ func ExampleSocket_basic() {
 	server.NewServer(httpServer, config)
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -60,11 +73,12 @@ func ExampleSocket_disconnect() {
 	server.NewServer(httpServer, config)
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -113,11 +127,12 @@ func ExampleSocket_emitWithAck() {
 	})
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -149,11 +164,12 @@ func ExampleSocket_volatile() {
 	server.NewServer(httpServer, config)
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling))
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -184,11 +200,12 @@ func ExampleSocket_onAny() {
 	})
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -218,11 +235,12 @@ func ExampleSocket_timeout() {
 	server.NewServer(httpServer, config)
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -296,14 +314,15 @@ func ExampleSocket_auth() {
 	})
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		// Client connection with authentication
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
 		opts.SetAuth(map[string]any{"Token": "test"})
 
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -382,14 +401,15 @@ func ExampleSocket_authFailed() {
 	})
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		// Client connection with invalid authentication
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
 		opts.SetAuth(map[string]any{"Token": "invalid-token"}) // Wrong token
 
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -470,8 +490,9 @@ func ExampleSocket_authWithUserInfo() {
 	})
 
 	done := make(chan struct{})
+	addr := allocatePort()
 
-	httpServer.Listen("127.0.0.1:8000", func() {
+	httpServer.Listen(addr, func() {
 		// Client connection with user token
 		opts := client.DefaultOptions()
 		opts.SetTransports(types.NewSet(client.Polling, client.WebSocket))
@@ -479,7 +500,7 @@ func ExampleSocket_authWithUserInfo() {
 			"Token": "user123",
 		})
 
-		socket, err := client.Connect("http://127.0.0.1:8000/", opts)
+		socket, err := client.Connect(fmt.Sprintf("http://%s/", addr), opts)
 		if err != nil {
 			log.Fatal(err)
 		}

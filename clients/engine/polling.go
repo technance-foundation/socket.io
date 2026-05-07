@@ -164,7 +164,7 @@ func (p *polling) DoClose() {
 		clientPollingLog.Debug("transport not open - deferring close")
 		_ = p.Once("open", cleanup)
 	}
-	defer func() { _ = p.client.Close() }()
+	_ = p.client.Close()
 }
 
 // Write encodes and sends packets to the server asynchronously.

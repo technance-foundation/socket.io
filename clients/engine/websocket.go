@@ -334,7 +334,7 @@ func (w *websocket) doWrite(data types.BufferInterface, compress bool, writeErr 
 func (w *websocket) DoClose() {
 	w.writeQueue.TryClose()
 	if w.socket != nil {
-		defer func() { _ = w.socket.Close() }()
+		_ = w.socket.Close()
 	}
 }
 
