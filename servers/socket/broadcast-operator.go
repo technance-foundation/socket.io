@@ -8,9 +8,12 @@ import (
 	"time"
 
 	"github.com/zishang520/socket.io/parsers/socket/v3/parser"
+	"github.com/zishang520/socket.io/v3/pkg/log"
 	"github.com/zishang520/socket.io/v3/pkg/types"
 	"github.com/zishang520/socket.io/v3/pkg/utils"
 )
+
+var broadcast_log = log.NewLog("socket.io:broadcast-operator")
 
 // BroadcastOperator is used to broadcast events to multiple clients.
 type BroadcastOperator struct {
@@ -140,6 +143,16 @@ func (b *BroadcastOperator) Emit(ev string, args ...any) error {
 
 	timer := utils.SetTimeout(func() {
 		timedOut.Store(true)
+
+		broadcast_log.Debug("operation has timed out")
+
+		if packetId := packet.Id; packetId != nil {
+			b.adapter.Nsp().Sockets().Range(func(_ SocketId, socket *Socket) bool {
+				socket.Acks().Delete(*packetId)
+				return true
+			})
+		}
+
 		ackOnce.Do(func() {
 			if b.flags.ExpectSingleResponse {
 				ack(nil, errors.New("operation has timed out"))
@@ -155,6 +168,13 @@ func (b *BroadcastOperator) Emit(ev string, args ...any) error {
 	var expectedClientCount atomic.Uint64
 
 	checkCompleteness := func() {
+		broadcast_log.Debug(
+			"responses: servers: %d / %d ; clients: %d / %d",
+			actualServerCount.Load(),
+			expectedServerCount.Load(),
+			responses.Len(),
+			expectedClientCount.Load(),
+		)
 		expected := expectedServerCount.Load()
 		if expected < 0 {
 			// ServerCount not yet known, skip check

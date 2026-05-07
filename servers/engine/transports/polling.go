@@ -165,6 +165,8 @@ func (p *polling) onDataRequest(ctx *types.HttpContext) {
 
 	if isBinary && p.Protocol() == 4 {
 		p.OnError("invalid content", nil)
+		_ = ctx.SetStatusCode(http.StatusBadRequest)
+		_, _ = ctx.Write(nil)
 		return
 	}
 

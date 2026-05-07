@@ -52,21 +52,6 @@ var (
 	ErrTooManyAttachments            = errors.New("too many attachments")
 )
 
-// DecoderOptions holds configuration options for the Decoder.
-type DecoderOptions struct {
-	// MaxAttachments is the maximum number of binary attachments allowed per packet.
-	// Defaults to DefaultMaxAttachments (10) if not set or set to 0.
-	MaxAttachments uint64
-
-	// MaxNamespaceLength is the maximum allowed length of a namespace name.
-	// Defaults to DefaultMaxNamespaceLength (512) if not set or set to 0.
-	MaxNamespaceLength int
-
-	// MaxPacketIDLength is the maximum allowed length of a packet ID string.
-	// Defaults to DefaultMaxPacketIDLength (20) if not set or set to 0.
-	MaxPacketIDLength int
-}
-
 // decoder implements the Decoder interface for Socket.IO packet decoding.
 type decoder struct {
 	types.EventEmitter
@@ -74,38 +59,24 @@ type decoder struct {
 	// reconstructor manages binary packet reconstruction state.
 	reconstructor atomic.Pointer[binaryReconstructor]
 
-	// maxAttachments is the per-instance maximum number of binary attachments.
-	maxAttachments uint64
-
-	// maxNamespaceLength is the per-instance maximum namespace name length.
-	maxNamespaceLength int
-
-	// maxPacketIDLength is the per-instance maximum packet ID string length.
-	maxPacketIDLength int
+	opts DecoderOptionsInterface
 }
 
 // NewDecoder creates a new Decoder instance.
 // An optional DecoderOptions can be provided to configure the decoder.
-func NewDecoder(opts ...*DecoderOptions) Decoder {
-	maxAttachments := DefaultMaxAttachments
-	maxNamespaceLength := DefaultMaxNamespaceLength
-	maxPacketIDLength := DefaultMaxPacketIDLength
+func NewDecoder(opts ...DecoderOptionsInterface) Decoder {
+	options := DefaultDecoderOptions()
+	options.SetMaxAttachments(DefaultMaxAttachments)
+	options.SetMaxNamespaceLength(DefaultMaxNamespaceLength)
+	options.SetMaxPacketIDLength(DefaultMaxPacketIDLength)
+
 	if len(opts) > 0 && opts[0] != nil {
-		if opts[0].MaxAttachments > 0 {
-			maxAttachments = opts[0].MaxAttachments
-		}
-		if opts[0].MaxNamespaceLength > 0 {
-			maxNamespaceLength = opts[0].MaxNamespaceLength
-		}
-		if opts[0].MaxPacketIDLength > 0 {
-			maxPacketIDLength = opts[0].MaxPacketIDLength
-		}
+		options.Assign(opts[0])
 	}
+
 	return &decoder{
-		EventEmitter:       types.NewEventEmitter(),
-		maxAttachments:     maxAttachments,
-		maxNamespaceLength: maxNamespaceLength,
-		maxPacketIDLength:  maxPacketIDLength,
+		EventEmitter: types.NewEventEmitter(),
+		opts:         options,
 	}
 }
 
@@ -287,7 +258,7 @@ func (d *decoder) parseAttachments(buffer types.BufferInterface, packet *Packet)
 		return ErrIllegalAttachments
 	}
 
-	if attachmentCount > d.maxAttachments {
+	if attachmentCount > d.opts.MaxAttachments() {
 		return ErrTooManyAttachments
 	}
 
@@ -319,7 +290,7 @@ func (d *decoder) parseNamespace(buffer types.BufferInterface, packet *Packet) e
 	nspSuffix, err := buffer.ReadString(',')
 	if err != nil {
 		if err == io.EOF {
-			if len(nspSuffix)+1 > d.maxNamespaceLength {
+			if len(nspSuffix)+1 > d.opts.MaxNamespaceLength() {
 				return ErrIllegalNamespace
 			}
 			packet.Nsp = "/" + nspSuffix
@@ -330,7 +301,7 @@ func (d *decoder) parseNamespace(buffer types.BufferInterface, packet *Packet) e
 
 	// Remove trailing comma
 	nsp := "/" + nspSuffix[:len(nspSuffix)-1]
-	if len(nsp) > d.maxNamespaceLength {
+	if len(nsp) > d.opts.MaxNamespaceLength() {
 		return ErrIllegalNamespace
 	}
 	packet.Nsp = nsp
@@ -346,7 +317,7 @@ func (d *decoder) parsePacketID(buffer types.BufferInterface, packet *Packet) er
 	var idBuilder strings.Builder
 
 	for {
-		if idBuilder.Len() >= d.maxPacketIDLength {
+		if idBuilder.Len() >= d.opts.MaxPacketIDLength() {
 			return ErrIllegalID
 		}
 

@@ -566,28 +566,32 @@ func TestDecoderOptionsMaxAttachments(t *testing.T) {
 	}
 
 	// Decoder with custom limit of 20 should accept 11 attachments
-	d2 := NewDecoder(&DecoderOptions{MaxAttachments: 20}).(*decoder)
+	opts20 := DefaultDecoderOptions()
+	opts20.SetMaxAttachments(20)
+	d2 := NewDecoder(opts20).(*decoder)
 	err = d2.Add("511-[\"hello\"]")
 	if err != nil {
 		t.Errorf("Decoder with MaxAttachments=20 should accept 11 attachments, got: %v", err)
 	}
 
 	// Decoder with custom limit of 5 should reject 6 attachments
-	d3 := NewDecoder(&DecoderOptions{MaxAttachments: 5}).(*decoder)
+	opts5 := DefaultDecoderOptions()
+	opts5.SetMaxAttachments(5)
+	d3 := NewDecoder(opts5).(*decoder)
 	err = d3.Add("56-[\"hello\"]")
 	if err == nil || err.Error() != "too many attachments" {
 		t.Errorf("Decoder with MaxAttachments=5 should reject 6 attachments, got: %v", err)
 	}
 
-	// Decoder with MaxAttachments=0 should use default
-	d4 := NewDecoder(&DecoderOptions{MaxAttachments: 0}).(*decoder)
-	if d4.maxAttachments != DefaultMaxAttachments {
-		t.Errorf("Decoder with MaxAttachments=0 should use default %d, got %d", DefaultMaxAttachments, d4.maxAttachments)
+	// Decoder with default options should use default limit
+	d4 := NewDecoder(DefaultDecoderOptions()).(*decoder)
+	if d4.opts.MaxAttachments() != DefaultMaxAttachments {
+		t.Errorf("Decoder with default opts should use default %d, got %d", DefaultMaxAttachments, d4.opts.MaxAttachments())
 	}
 
 	// Decoder with nil options should use default
 	d5 := NewDecoder(nil).(*decoder)
-	if d5.maxAttachments != DefaultMaxAttachments {
-		t.Errorf("Decoder with nil opts should use default %d, got %d", DefaultMaxAttachments, d5.maxAttachments)
+	if d5.opts.MaxAttachments() != DefaultMaxAttachments {
+		t.Errorf("Decoder with nil opts should use default %d, got %d", DefaultMaxAttachments, d5.opts.MaxAttachments())
 	}
 }
