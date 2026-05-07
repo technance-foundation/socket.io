@@ -4,6 +4,9 @@
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
 
+# Root
+PROJECT_ROOT := $(CURDIR)
+
 # Silence make output for a clean CLI experience
 MAKEFLAGS += --no-print-directory
 
@@ -151,7 +154,7 @@ ifdef MODULE
 	$(call VALIDATE_MODULE)
 endif
 	@command -v golangci-lint >/dev/null 2>&1 || { printf "$(C_RED)[Error] golangci-lint is not installed. See https://golangci-lint.run/welcome/install/$(C_RESET)\n"; exit 1; }
-	$(call EXECUTE,Lint,golangci-lint run $(if $(FIX),--fix) ./...)
+	$(call EXECUTE,Lint,golangci-lint run --timeout=5m --config=$(PROJECT_ROOT)/.golangci.yml $(if $(FIX),--fix) ./...)
 
 clean:
 ifdef MODULE

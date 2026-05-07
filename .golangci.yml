@@ -1,4 +1,4 @@
-# golangci-lint 2.10.1 configuration
+# golangci-lint 2.11.3 configuration
 # https://golangci-lint.run/usage/configuration/
 
 version: "2"

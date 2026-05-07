@@ -3,6 +3,11 @@ setlocal ENABLEDELAYEDEXPANSION
 pushd "%~dp0"
 
 :: ============================================================================
+::  0. INITIALIZE PWD
+:: ============================================================================
+set "PWD=%CD%"
+
+:: ============================================================================
 ::  1. ENVIRONMENT & COLORS
 :: ============================================================================
 :: Generate ESC character safely for ANSI colors
@@ -89,7 +94,7 @@ if /I "%~1"=="lint" (
     )
     call :RunBatch "go mod tidy && go mod vendor" "!LINT_MODULE!" "Deps"
     :: Added <nul to prevent golangci-lint from locking VT input mode
-    if !ERRORLEVEL! EQU 0 call :RunBatch "golangci-lint run !LINT_FIX! ./... <nul" "!LINT_MODULE!" "Lint"
+    if !ERRORLEVEL! EQU 0 call :RunBatch "golangci-lint run --timeout=5m --config=!PWD!\.golangci.yml !LINT_FIX! ./... <nul" "!LINT_MODULE!" "Lint"
     goto :finalize
 )
 
