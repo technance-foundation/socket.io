@@ -212,7 +212,7 @@ func (p *polling) doPoll() {
 	}
 	defer func() { _ = res.Body.Close() }()
 	if !res.Ok() {
-		p.OnError("fetch read error", res.Err, res.Request.Context())
+		p.OnError("fetch read error", res.CascadeError, res.Request.Context())
 		return
 	}
 	data, err := types.NewStringBufferReader(res.Body)
@@ -233,7 +233,7 @@ func (p *polling) doWrite(data types.BufferInterface, fn func()) {
 	}
 	defer func() { _ = res.Body.Close() }()
 	if !res.Ok() {
-		p.OnError("fetch write error", res.Err, res.Request.Context())
+		p.OnError("fetch write error", res.CascadeError, res.Request.Context())
 		return
 	}
 	fn()
