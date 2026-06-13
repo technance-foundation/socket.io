@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	rds "github.com/redis/go-redis/v9"
-	"github.com/zishang520/socket.io/adapters/redis/v3"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/adapters/redis/v3"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 func TestEmitterOptions(t *testing.T) {

@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"sync/atomic"
 
-	"github.com/zishang520/socket.io/adapters/adapter/v3"
-	"github.com/zishang520/socket.io/adapters/unix/v3"
-	"github.com/zishang520/socket.io/servers/socket/v3"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/adapters/adapter/v3"
+	"github.com/technance-foundation/socket.io/adapters/unix/v3"
+	"github.com/technance-foundation/socket.io/servers/socket/v3"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 type (

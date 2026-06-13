@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // IsBinary determines if the given data is a binary type.

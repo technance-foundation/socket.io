@@ -4,7 +4,7 @@ package packet
 import (
 	"io"
 
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // Type represents the Engine.IO packet type.

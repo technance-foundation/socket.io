@@ -1,5 +1,5 @@
 package postgres
 
-import "github.com/zishang520/socket.io/v3/pkg/version"
+import "github.com/technance-foundation/socket.io/v3/pkg/version"
 
 const VERSION = version.VERSION

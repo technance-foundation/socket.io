@@ -3,7 +3,7 @@ package socket
 import (
 	"fmt"
 
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // on registers an event listener for the given event name on the EventEmitter.

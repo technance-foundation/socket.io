@@ -47,7 +47,7 @@ Socket.IO for Go **v3.0.0** is a major release that brings the following key imp
 ### Module Architecture
 
 ```
-github.com/zishang520/socket.io/
+github.com/technance-foundation/socket.io/
 ├── v3                          # Root: shared types, interfaces
 ├── parsers/
 │   ├── engine/v3               # Engine.IO protocol parser
@@ -76,7 +76,7 @@ We recommend reviewing this entire upgrade guide to understand all changes. The 
 <details>
 <summary>Dependency Structure Consolidation</summary>
 
-All Socket.IO related packages are now consolidated under the main `github.com/zishang520/socket.io/` repository with versioned submodules.
+All Socket.IO related packages are now consolidated under the main `github.com/technance-foundation/socket.io/` repository with versioned submodules.
 
 **Likelihood Of Impact: Very High**
 
@@ -136,11 +136,11 @@ The Redis adapter has replaced `types.String` with `types.Atomic[string]` for be
 
 ```go
 // Before
-import "github.com/zishang520/socket.io-go-redis/types"
+import "github.com/technance-foundation/socket.io-go-redis/types"
 var s types.String
 
 // After
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 var s types.Atomic[string]
 ```
 
@@ -270,7 +270,7 @@ func configExample(config ConnectionStateRecoveryInterface) {
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/v3/pkg/utils"
+import "github.com/technance-foundation/socket.io/v3/pkg/utils"
 
 func example() {
     var bag *utils.ParameterBag
@@ -278,7 +278,7 @@ func example() {
 }
 
 // After
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 
 func example() {
     var bag *types.ParameterBag
@@ -297,7 +297,7 @@ Utility functions like `SliceMap` and `Tap` have been moved from the `adapter` p
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/adapters/adapter/v3"
+import "github.com/technance-foundation/socket.io/adapters/adapter/v3"
 
 func example() {
     adapter.SliceMap(/**/)
@@ -306,8 +306,8 @@ func example() {
 
 // After
 import (
-    "github.com/zishang520/socket.io/v3/pkg/slices"
-    "github.com/zishang520/socket.io/v3/pkg/utils"
+    "github.com/technance-foundation/socket.io/v3/pkg/slices"
+    "github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 func example() {
@@ -352,18 +352,18 @@ The `ExtendedError` type has been consolidated from separate implementations in 
 
 ```go
 // Before (client-side)
-import "github.com/zishang520/socket.io-client-go/socket"
+import "github.com/technance-foundation/socket.io-client-go/socket"
 
 err := socket.NewExtendedError("connection failed", nil)
 
 // Before (server-side)
-import "github.com/zishang520/socket.io/v2/socket"
+import "github.com/technance-foundation/socket.io/v2/socket"
 
 err := socket.NewExtendedError("middleware error", map[string]any{"code": 401})
 data := err.Data()  // Note: server-side had Data() method
 
 // After (unified)
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 
 err := types.NewExtendedError("error message", map[string]any{"code": 401})
 data := err.Data  // Now uses direct field access
@@ -388,15 +388,15 @@ The `SubscriptionMode` type has been moved from `adapters/redis/adapter` package
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/adapters/redis/v3/adapter"
+import "github.com/technance-foundation/socket.io/adapters/redis/v3/adapter"
 
 opts := adapter.NewShardedRedisAdapterOptions()
 opts.SetSubscriptionMode(adapter.DynamicSubscriptionMode)
 
 // After
 import (
-    "github.com/zishang520/socket.io/adapters/redis/v3"
-    "github.com/zishang520/socket.io/adapters/redis/v3/adapter"
+    "github.com/technance-foundation/socket.io/adapters/redis/v3"
+    "github.com/technance-foundation/socket.io/adapters/redis/v3/adapter"
 )
 
 opts := adapter.NewShardedRedisAdapterOptions()
@@ -456,15 +456,15 @@ If you're importing internal packages, review your imports after upgrading.
 Update your `go.mod` to require the Socket.IO v3 packages:
 
 ```bash
-go get github.com/zishang520/socket.io/v3@latest
-go get github.com/zishang520/socket.io/parsers/engine/v3@latest
-go get github.com/zishang520/socket.io/parsers/socket/v3@latest
-go get github.com/zishang520/socket.io/servers/engine/v3@latest
-go get github.com/zishang520/socket.io/servers/socket/v3@latest
-go get github.com/zishang520/socket.io/adapters/adapter/v3@latest
-go get github.com/zishang520/socket.io/adapters/redis/v3@latest
-go get github.com/zishang520/socket.io/clients/engine/v3@latest
-go get github.com/zishang520/socket.io/clients/socket/v3@latest
+go get github.com/technance-foundation/socket.io/v3@latest
+go get github.com/technance-foundation/socket.io/parsers/engine/v3@latest
+go get github.com/technance-foundation/socket.io/parsers/socket/v3@latest
+go get github.com/technance-foundation/socket.io/servers/engine/v3@latest
+go get github.com/technance-foundation/socket.io/servers/socket/v3@latest
+go get github.com/technance-foundation/socket.io/adapters/adapter/v3@latest
+go get github.com/technance-foundation/socket.io/adapters/redis/v3@latest
+go get github.com/technance-foundation/socket.io/clients/engine/v3@latest
+go get github.com/technance-foundation/socket.io/clients/socket/v3@latest
 ```
 
 Clean up your dependencies after updating:
@@ -477,15 +477,15 @@ Example `go.mod` entries:
 
 ```go
 require (
-    github.com/zishang520/socket.io/v3 v3.0.0
-    github.com/zishang520/socket.io/parsers/engine/v3 v3.0.0
-    github.com/zishang520/socket.io/parsers/socket/v3 v3.0.0
-    github.com/zishang520/socket.io/servers/engine/v3 v3.0.0
-    github.com/zishang520/socket.io/servers/socket/v3 v3.0.0
-    github.com/zishang520/socket.io/adapters/adapter/v3 v3.0.0
-    github.com/zishang520/socket.io/adapters/redis/v3 v3.0.0
-    github.com/zishang520/socket.io/clients/engine/v3 v3.0.0
-    github.com/zishang520/socket.io/clients/socket/v3 v3.0.0
+    github.com/technance-foundation/socket.io/v3 v3.0.0
+    github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.0
+    github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.0
+    github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.0
+    github.com/technance-foundation/socket.io/servers/socket/v3 v3.0.0
+    github.com/technance-foundation/socket.io/adapters/adapter/v3 v3.0.0
+    github.com/technance-foundation/socket.io/adapters/redis/v3 v3.0.0
+    github.com/technance-foundation/socket.io/clients/engine/v3 v3.0.0
+    github.com/technance-foundation/socket.io/clients/socket/v3 v3.0.0
 )
 ```
 
@@ -499,55 +499,55 @@ Update all Socket.IO import paths throughout your application using the followin
 
 | v1/v2 Import | v3 Import |
 |--------------|-----------|
-| `github.com/zishang520/engine.io-go-parser/packet` | `github.com/zishang520/socket.io/parsers/engine/v3/packet` |
-| `github.com/zishang520/engine.io-go-parser/parser` | `github.com/zishang520/socket.io/parsers/engine/v3/parser` |
-| `github.com/zishang520/engine.io-go-parser/types` | `github.com/zishang520/socket.io/v3/pkg/types` |
-| `github.com/zishang520/engine.io-go-parser/utils` | `github.com/zishang520/socket.io/v3/pkg/utils` |
+| `github.com/technance-foundation/engine.io-go-parser/packet` | `github.com/technance-foundation/socket.io/parsers/engine/v3/packet` |
+| `github.com/technance-foundation/engine.io-go-parser/parser` | `github.com/technance-foundation/socket.io/parsers/engine/v3/parser` |
+| `github.com/technance-foundation/engine.io-go-parser/types` | `github.com/technance-foundation/socket.io/v3/pkg/types` |
+| `github.com/technance-foundation/engine.io-go-parser/utils` | `github.com/technance-foundation/socket.io/v3/pkg/utils` |
 
 ### Socket.IO Parser
 
 | v1/v2 Import | v3 Import |
 |--------------|-----------|
-| `github.com/zishang520/socket.io-go-parser/parser` | `github.com/zishang520/socket.io/parsers/socket/v3/parser` |
-| `github.com/zishang520/socket.io-go-parser/v2/parser` | `github.com/zishang520/socket.io/parsers/socket/v3/parser` |
+| `github.com/technance-foundation/socket.io-go-parser/parser` | `github.com/technance-foundation/socket.io/parsers/socket/v3/parser` |
+| `github.com/technance-foundation/socket.io-go-parser/v2/parser` | `github.com/technance-foundation/socket.io/parsers/socket/v3/parser` |
 
 ### Engine.IO Server
 
 | v1/v2 Import | v3 Import |
 |--------------|-----------|
-| `github.com/zishang520/engine.io/config` | `github.com/zishang520/socket.io/servers/engine/v3/config` |
-| `github.com/zishang520/engine.io/v2/config` | `github.com/zishang520/socket.io/servers/engine/v3/config` |
-| `github.com/zishang520/engine.io/engine` | `github.com/zishang520/socket.io/servers/engine/v3` |
-| `github.com/zishang520/engine.io/v2/engine` | `github.com/zishang520/socket.io/servers/engine/v3` |
-| `github.com/zishang520/engine.io/errors` | `github.com/zishang520/socket.io/servers/engine/v3/errors` |
-| `github.com/zishang520/engine.io/v2/errors` | `github.com/zishang520/socket.io/servers/engine/v3/errors` |
-| `github.com/zishang520/engine.io/events` | `github.com/zishang520/socket.io/v3/pkg/events` |
-| `github.com/zishang520/engine.io/v2/events` | `github.com/zishang520/socket.io/v3/pkg/events` |
-| `github.com/zishang520/engine.io/log` | `github.com/zishang520/socket.io/v3/pkg/log` |
-| `github.com/zishang520/engine.io/v2/log` | `github.com/zishang520/socket.io/v3/pkg/log` |
-| `github.com/zishang520/engine.io/transports` | `github.com/zishang520/socket.io/servers/engine/v3/transports` |
-| `github.com/zishang520/engine.io/v2/transports` | `github.com/zishang520/socket.io/servers/engine/v3/transports` |
-| `github.com/zishang520/engine.io/types` | `github.com/zishang520/socket.io/v3/pkg/types` |
-| `github.com/zishang520/engine.io/v2/types` | `github.com/zishang520/socket.io/v3/pkg/types` |
-| `github.com/zishang520/engine.io/utils` | `github.com/zishang520/socket.io/v3/pkg/utils` |
-| `github.com/zishang520/engine.io/v2/utils` | `github.com/zishang520/socket.io/v3/pkg/utils` |
-| `github.com/zishang520/engine.io/v2/webtransport` | `github.com/zishang520/socket.io/v3/pkg/webtransport` |
+| `github.com/technance-foundation/engine.io/config` | `github.com/technance-foundation/socket.io/servers/engine/v3/config` |
+| `github.com/technance-foundation/engine.io/v2/config` | `github.com/technance-foundation/socket.io/servers/engine/v3/config` |
+| `github.com/technance-foundation/engine.io/engine` | `github.com/technance-foundation/socket.io/servers/engine/v3` |
+| `github.com/technance-foundation/engine.io/v2/engine` | `github.com/technance-foundation/socket.io/servers/engine/v3` |
+| `github.com/technance-foundation/engine.io/errors` | `github.com/technance-foundation/socket.io/servers/engine/v3/errors` |
+| `github.com/technance-foundation/engine.io/v2/errors` | `github.com/technance-foundation/socket.io/servers/engine/v3/errors` |
+| `github.com/technance-foundation/engine.io/events` | `github.com/technance-foundation/socket.io/v3/pkg/events` |
+| `github.com/technance-foundation/engine.io/v2/events` | `github.com/technance-foundation/socket.io/v3/pkg/events` |
+| `github.com/technance-foundation/engine.io/log` | `github.com/technance-foundation/socket.io/v3/pkg/log` |
+| `github.com/technance-foundation/engine.io/v2/log` | `github.com/technance-foundation/socket.io/v3/pkg/log` |
+| `github.com/technance-foundation/engine.io/transports` | `github.com/technance-foundation/socket.io/servers/engine/v3/transports` |
+| `github.com/technance-foundation/engine.io/v2/transports` | `github.com/technance-foundation/socket.io/servers/engine/v3/transports` |
+| `github.com/technance-foundation/engine.io/types` | `github.com/technance-foundation/socket.io/v3/pkg/types` |
+| `github.com/technance-foundation/engine.io/v2/types` | `github.com/technance-foundation/socket.io/v3/pkg/types` |
+| `github.com/technance-foundation/engine.io/utils` | `github.com/technance-foundation/socket.io/v3/pkg/utils` |
+| `github.com/technance-foundation/engine.io/v2/utils` | `github.com/technance-foundation/socket.io/v3/pkg/utils` |
+| `github.com/technance-foundation/engine.io/v2/webtransport` | `github.com/technance-foundation/socket.io/v3/pkg/webtransport` |
 
 ### Socket.IO Server
 
 | v1/v2 Import | v3 Import |
 |--------------|-----------|
-| `github.com/zishang520/socket.io/socket` | `github.com/zishang520/socket.io/servers/socket/v3` |
-| `github.com/zishang520/socket.io/v2/socket` | `github.com/zishang520/socket.io/servers/socket/v3` |
-| `github.com/zishang520/socket.io/v2/adapter` | `github.com/zishang520/socket.io/adapters/adapter/v3` |
+| `github.com/technance-foundation/socket.io/socket` | `github.com/technance-foundation/socket.io/servers/socket/v3` |
+| `github.com/technance-foundation/socket.io/v2/socket` | `github.com/technance-foundation/socket.io/servers/socket/v3` |
+| `github.com/technance-foundation/socket.io/v2/adapter` | `github.com/technance-foundation/socket.io/adapters/adapter/v3` |
 
 ### Redis Adapter
 
 | v1 Import | v3 Import |
 |-----------|-----------|
-| `github.com/zishang520/socket.io-go-redis/adapter` | `github.com/zishang520/socket.io/adapters/redis/v3/adapter` |
-| `github.com/zishang520/socket.io-go-redis/emitter` | `github.com/zishang520/socket.io/adapters/redis/v3/emitter` |
-| `github.com/zishang520/socket.io-go-redis/types` | `github.com/zishang520/socket.io/adapters/redis/v3` |
+| `github.com/technance-foundation/socket.io-go-redis/adapter` | `github.com/technance-foundation/socket.io/adapters/redis/v3/adapter` |
+| `github.com/technance-foundation/socket.io-go-redis/emitter` | `github.com/technance-foundation/socket.io/adapters/redis/v3/emitter` |
+| `github.com/technance-foundation/socket.io-go-redis/types` | `github.com/technance-foundation/socket.io/adapters/redis/v3` |
 
 ### Redis Adapter Internal Migrations (v3)
 
@@ -563,20 +563,20 @@ Update all Socket.IO import paths throughout your application using the followin
 The Valkey adapter is a new, independent module introduced in v3. It mirrors the `adapters/redis` module but uses the [`valkey-go`](https://github.com/valkey-io/valkey-go) client.
 
 ```bash
-go get github.com/zishang520/socket.io/adapters/valkey/v3@latest
+go get github.com/technance-foundation/socket.io/adapters/valkey/v3@latest
 ```
 
 | Package | Import Path |
 |---------|-------------|
-| Root types & client | `github.com/zishang520/socket.io/adapters/valkey/v3` |
-| Classic / Sharded / Streams adapters | `github.com/zishang520/socket.io/adapters/valkey/v3/adapter` |
-| Emitter | `github.com/zishang520/socket.io/adapters/valkey/v3/emitter` |
+| Root types & client | `github.com/technance-foundation/socket.io/adapters/valkey/v3` |
+| Classic / Sharded / Streams adapters | `github.com/technance-foundation/socket.io/adapters/valkey/v3/adapter` |
+| Emitter | `github.com/technance-foundation/socket.io/adapters/valkey/v3/emitter` |
 
 **Example `go.mod`:**
 
 ```go
 require (
-    github.com/zishang520/socket.io/adapters/valkey/v3 v3.x.y
+    github.com/technance-foundation/socket.io/adapters/valkey/v3 v3.x.y
 )
 ```
 
@@ -586,8 +586,8 @@ require (
 import (
     "context"
     vk "github.com/valkey-io/valkey-go"
-    valkey "github.com/zishang520/socket.io/adapters/valkey/v3"
-    vkadapter "github.com/zishang520/socket.io/adapters/valkey/v3/adapter"
+    valkey "github.com/technance-foundation/socket.io/adapters/valkey/v3"
+    vkadapter "github.com/technance-foundation/socket.io/adapters/valkey/v3/adapter"
 )
 
 client, _ := vk.NewClient(vk.ClientOption{InitAddress: []string{"localhost:6379"}})
@@ -608,25 +608,25 @@ server.SetAdapter(&vkadapter.ValkeyAdapterBuilder{Valkey: valkeyClient})
 
 | v1 Import | v3 Import |
 |-----------|-----------|
-| `github.com/zishang520/engine.io-client-go/engine` | `github.com/zishang520/socket.io/clients/engine/v3` |
-| `github.com/zishang520/engine.io-client-go/request` | `github.com/zishang520/socket.io/v3/pkg/request` |
-| `github.com/zishang520/engine.io-client-go/transports` | `github.com/zishang520/socket.io/clients/engine/v3/transports` |
+| `github.com/technance-foundation/engine.io-client-go/engine` | `github.com/technance-foundation/socket.io/clients/engine/v3` |
+| `github.com/technance-foundation/engine.io-client-go/request` | `github.com/technance-foundation/socket.io/v3/pkg/request` |
+| `github.com/technance-foundation/engine.io-client-go/transports` | `github.com/technance-foundation/socket.io/clients/engine/v3/transports` |
 
 ### Socket.IO Client
 
 | v1 Import | v3 Import |
 |-----------|-----------|
-| `github.com/zishang520/socket.io-client-go/socket` | `github.com/zishang520/socket.io/clients/socket/v3` |
-| `github.com/zishang520/socket.io-client-go/utils` | `github.com/zishang520/socket.io/v3/pkg/utils` |
+| `github.com/technance-foundation/socket.io-client-go/socket` | `github.com/technance-foundation/socket.io/clients/socket/v3` |
+| `github.com/technance-foundation/socket.io-client-go/utils` | `github.com/technance-foundation/socket.io/v3/pkg/utils` |
 
 ### Error Types (New in v3)
 
 | Old Import | v3 Import |
 |------------|-----------|
-| `clients/socket.ExtendedError` | `github.com/zishang520/socket.io/v3/pkg/types.ExtendedError` |
-| `servers/socket.ExtendedError` | `github.com/zishang520/socket.io/v3/pkg/types.ExtendedError` |
+| `clients/socket.ExtendedError` | `github.com/technance-foundation/socket.io/v3/pkg/types.ExtendedError` |
+| `servers/socket.ExtendedError` | `github.com/technance-foundation/socket.io/v3/pkg/types.ExtendedError` |
 
-> **Tip:** Use `grep -r "github.com/zishang520" .` to find all old imports, then use find-and-replace to update them systematically.
+> **Tip:** Use `grep -r "github.com/technance-foundation" .` to find all old imports, then use find-and-replace to update them systematically.
 
 ---
 
@@ -646,7 +646,7 @@ If you're using the Redis adapter, you must replace all instances of `types.Stri
 
 ```go
 // Before
-import "github.com/zishang520/socket.io-go-redis/types"
+import "github.com/technance-foundation/socket.io-go-redis/types"
 
 func example() {
     var roomName types.String
@@ -655,7 +655,7 @@ func example() {
 }
 
 // After
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 
 func example() {
     var roomName types.Atomic[string]
@@ -714,11 +714,11 @@ Update `*utils.ParameterBag` to `*types.ParameterBag`:
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/v3/pkg/utils"
+import "github.com/technance-foundation/socket.io/v3/pkg/utils"
 var bag *utils.ParameterBag = utils.NewParameterBag(nil)
 
 // After
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 var bag *types.ParameterBag = types.NewParameterBag(nil)
 ```
 
@@ -770,12 +770,12 @@ If using the sharded Redis adapter, update `SubscriptionMode` imports:
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/adapters/redis/v3/adapter"
+import "github.com/technance-foundation/socket.io/adapters/redis/v3/adapter"
 
 opts.SetSubscriptionMode(adapter.DynamicSubscriptionMode)
 
 // After
-import "github.com/zishang520/socket.io/adapters/redis/v3"
+import "github.com/technance-foundation/socket.io/adapters/redis/v3"
 
 opts.SetSubscriptionMode(redis.DynamicSubscriptionMode)
 ```
@@ -793,7 +793,7 @@ import (
 	"fmt"
 	"net/http"
 
-	server "github.com/zishang520/socket.io/servers/socket/v3"
+	server "github.com/technance-foundation/socket.io/servers/socket/v3"
 )
 
 func main() {
@@ -901,11 +901,11 @@ data := err.Data
 
 ## Need Help?
 
-- [GitHub Issues](https://github.com/zishang520/socket.io/issues) — for confirmed bugs or feature requests
-- [GitHub Discussions](https://github.com/zishang520/socket.io/discussions/new?category=q-a) — for general questions and help
-- [Go Package Documentation](https://pkg.go.dev/github.com/zishang520/socket.io/v3) — API reference
+- [GitHub Issues](https://github.com/technance-foundation/socket.io/issues) — for confirmed bugs or feature requests
+- [GitHub Discussions](https://github.com/technance-foundation/socket.io/discussions/new?category=q-a) — for general questions and help
+- [Go Package Documentation](https://pkg.go.dev/github.com/technance-foundation/socket.io/v3) — API reference
 - [Socket.IO Protocol Documentation](https://socket.io/docs/v4/) — protocol specification
-- [Socket.IO Go Repository](https://github.com/zishang520/socket.io) — source code and examples
+- [Socket.IO Go Repository](https://github.com/technance-foundation/socket.io) — source code and examples
 
 ---
 
@@ -942,7 +942,7 @@ See the individual RC/beta/alpha release notes below for detailed per-release ch
 
 ### v3.0.0-rc.14
 
-> Released from commit [`cc50fc2`](https://github.com/zishang520/socket.io/commit/cc50fc2)
+> Released from commit [`cc50fc2`](https://github.com/technance-foundation/socket.io/commit/cc50fc2)
 
 #### Breaking Changes and Behavior Updates
 
@@ -955,7 +955,7 @@ The shared mutable `ERROR_PACKET` singleton has been removed from the public API
 
 ```go
 // Before (no longer works)
-import "github.com/zishang520/socket.io/parsers/engine/v3/parser"
+import "github.com/technance-foundation/socket.io/parsers/engine/v3/parser"
 var errPkt = parser.ERROR_PACKET
 
 // After (use alternatives)
@@ -975,7 +975,7 @@ The `Encode()` method in the Socket.IO packet encoder now creates a copy of the 
 
 ```go
 // Before - Encode() modified the input packet's Type field
-import "github.com/zishang520/socket.io/parsers/socket/v3/parser"
+import "github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
 
 pkt := &packet.Packet{Type: parser.EVENT, Data: binaryData}
 encoded := encoder.Encode(pkt)
@@ -998,7 +998,7 @@ encoded := encoder.Encode(pkt)
 The attachment limit has been reduced from a hardcoded 1000 to a configurable per-decoder instance default of 10 (aligned with the upstream Node.js implementation). The limit is now controlled via `DecoderOptions` instead of a package-level constant.
 
 ```go
-import "github.com/zishang520/socket.io/parsers/socket/v3/parser"
+import "github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
 
 // Default - limited to 10 attachments per packet
 decoder := parser.NewDecoder()
@@ -1032,7 +1032,7 @@ The polling transport now enforces `MaxHttpBufferSize` limit on request body rea
 **Impact:** If you're sending payloads larger than `MaxHttpBufferSize` (default 1 MB) via polling transport, they will be truncated or rejected. Use WebSocket/WebTransport for larger messages or increase the limit:
 
 ```go
-import "github.com/zishang520/socket.io/servers/engine/v3/config"
+import "github.com/technance-foundation/socket.io/servers/engine/v3/config"
 
 opts := config.DefaultServerOptions()
 opts.SetMaxHttpBufferSize(10 * 1024 * 1024) // 10 MB
@@ -1117,7 +1117,7 @@ The task queue now uses `runtime.SetFinalizer()` to prevent goroutine leaks when
 
 **Likelihood Of Impact: Very Low**
 
-Resolves [#116](https://github.com/zishang520/socket.io/issues/116). A new sequential task queue (`pkg/queue`) preserves message ordering and prevents OOM under high concurrency. Both client and server transports now use this queue for send operations.
+Resolves [#116](https://github.com/technance-foundation/socket.io/issues/116). A new sequential task queue (`pkg/queue`) preserves message ordering and prevents OOM under high concurrency. Both client and server transports now use this queue for send operations.
 
 **Impact:** This is a reliability fix. No code changes required.
 </details>
@@ -1133,7 +1133,7 @@ Resolves [#116](https://github.com/zishang520/socket.io/issues/116). A new seque
 
 ### v3.0.0-rc.13
 
-> Released from commit [`5b988b6`](https://github.com/zishang520/socket.io/commit/5b988b6)
+> Released from commit [`5b988b6`](https://github.com/technance-foundation/socket.io/commit/5b988b6)
 
 #### Highlights
 
@@ -1156,7 +1156,7 @@ Resolves [#116](https://github.com/zishang520/socket.io/issues/116). A new seque
 
 ### v3.0.0-rc.12
 
-> Released from commit [`e854211`](https://github.com/zishang520/socket.io/commit/e854211)
+> Released from commit [`e854211`](https://github.com/technance-foundation/socket.io/commit/e854211)
 
 #### Highlights
 
@@ -1169,18 +1169,18 @@ The `ExtendedError` type has been consolidated from separate implementations in 
 
 ```go
 // Before (client-side)
-import "github.com/zishang520/socket.io-client-go/socket"
+import "github.com/technance-foundation/socket.io-client-go/socket"
 
 err := socket.NewExtendedError("connection failed", nil)
 
 // Before (server-side)
-import "github.com/zishang520/socket.io/v2/socket"
+import "github.com/technance-foundation/socket.io/v2/socket"
 
 err := socket.NewExtendedError("middleware error", map[string]any{"code": 401})
 data := err.Data()  // Note: server-side had Data() method
 
 // After (unified)
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 
 err := types.NewExtendedError("error message", map[string]any{"code": 401})
 data := err.Data  // Now uses direct field access
@@ -1205,15 +1205,15 @@ The `SubscriptionMode` type has been moved from `adapters/redis/adapter` package
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/adapters/redis/v3/adapter"
+import "github.com/technance-foundation/socket.io/adapters/redis/v3/adapter"
 
 opts := adapter.NewShardedRedisAdapterOptions()
 opts.SetSubscriptionMode(adapter.DynamicSubscriptionMode)
 
 // After
 import (
-    "github.com/zishang520/socket.io/adapters/redis/v3"
-    "github.com/zishang520/socket.io/adapters/redis/v3/adapter"
+    "github.com/technance-foundation/socket.io/adapters/redis/v3"
+    "github.com/technance-foundation/socket.io/adapters/redis/v3/adapter"
 )
 
 opts := adapter.NewShardedRedisAdapterOptions()
@@ -1255,7 +1255,7 @@ emitterOpts.SetSubscriptionMode(redis.DynamicSubscriptionMode)
 
 ### v3.0.0-rc.8
 
-> Released from commit [`b2f5457`](https://github.com/zishang520/socket.io/commit/b2f5457)
+> Released from commit [`b2f5457`](https://github.com/technance-foundation/socket.io/commit/b2f5457)
 
 #### Highlights
 
@@ -1268,7 +1268,7 @@ Utility functions `SliceMap` and `Tap` have been moved from the `adapter` packag
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/adapters/adapter/v3"
+import "github.com/technance-foundation/socket.io/adapters/adapter/v3"
 
 func example() {
     adapter.SliceMap(/**/)
@@ -1277,8 +1277,8 @@ func example() {
 
 // After
 import (
-    "github.com/zishang520/socket.io/v3/pkg/slices"
-    "github.com/zishang520/socket.io/v3/pkg/utils"
+    "github.com/technance-foundation/socket.io/v3/pkg/slices"
+    "github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 func example() {
@@ -1372,7 +1372,7 @@ func example(ctx *types.HttpContext) {
 
 ```go
 // Before
-import "github.com/zishang520/socket.io/v3/pkg/utils"
+import "github.com/technance-foundation/socket.io/v3/pkg/utils"
 
 func example() {
     var bag *utils.ParameterBag
@@ -1380,7 +1380,7 @@ func example() {
 }
 
 // After
-import "github.com/zishang520/socket.io/v3/pkg/types"
+import "github.com/technance-foundation/socket.io/v3/pkg/types"
 
 func example() {
     var bag *types.ParameterBag
@@ -1393,7 +1393,7 @@ func example() {
 
 ### v3.0.0-rc.4
 
-> Released from commit [`d7c93b5`](https://github.com/zishang520/socket.io/commit/d7c93b5)
+> Released from commit [`d7c93b5`](https://github.com/technance-foundation/socket.io/commit/d7c93b5)
 
 #### Highlights
 
@@ -1471,7 +1471,7 @@ if duration := config.GetRawMaxDisconnectionDuration(); duration != nil && durat
 
 ### v3.0.0-rc.2
 
-> Released from commit [`540c239`](https://github.com/zishang520/socket.io/commit/540c239)
+> Released from commit [`540c239`](https://github.com/technance-foundation/socket.io/commit/540c239)
 
 #### Bug Fixes
 
@@ -1485,7 +1485,7 @@ if duration := config.GetRawMaxDisconnectionDuration(); duration != nil && durat
 
 ### v3.0.0-beta.1
 
-> Released from commit [`01f5eca`](https://github.com/zishang520/socket.io/commit/01f5eca)
+> Released from commit [`01f5eca`](https://github.com/technance-foundation/socket.io/commit/01f5eca)
 
 #### Highlights
 
@@ -1527,7 +1527,7 @@ func configExample(config ConnectionStateRecoveryInterface) {
 #### Highlights
 
 - **Dependency Consolidation**: All previously separate repositories (`engine.io-go-parser`, `engine.io`, `socket.io-go-parser`, `socket.io-client-go`, `socket.io-go-redis`) have been merged into a single monorepo with versioned submodules
-- **Import Path Restructuring**: All package import paths updated to the new `github.com/zishang520/socket.io/` namespace (see [Import Path Updates](#import-path-updates))
+- **Import Path Restructuring**: All package import paths updated to the new `github.com/technance-foundation/socket.io/` namespace (see [Import Path Updates](#import-path-updates))
 - **Type-safe Atomic Types**: `atomic.Value` replaced with generic `types.Atomic[T]` for type safety (`7389549`)
 - **Redis Adapter Type Updates**: `types.String` replaced with `types.Atomic[string]`
 - **Server Options Refactoring**: Consolidated server options interfaces and structures for improved clarity (`a396fef`)

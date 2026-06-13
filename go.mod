@@ -1,4 +1,4 @@
-module github.com/zishang520/socket.io/v3
+module github.com/technance-foundation/socket.io/v3
 
 go 1.26.0
 

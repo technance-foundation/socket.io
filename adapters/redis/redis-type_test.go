@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/zishang520/socket.io/adapters/adapter/v3"
-	"github.com/zishang520/socket.io/parsers/socket/v3/parser"
-	"github.com/zishang520/socket.io/servers/socket/v3"
+	"github.com/technance-foundation/socket.io/adapters/adapter/v3"
+	"github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
+	"github.com/technance-foundation/socket.io/servers/socket/v3"
 )
 
 func TestRedisPacket_MarshalJSON(t *testing.T) {

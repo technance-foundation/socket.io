@@ -4,9 +4,9 @@ package adapter
 import (
 	"time"
 
-	"github.com/zishang520/socket.io/adapters/adapter/v3"
-	"github.com/zishang520/socket.io/adapters/postgres/v3/emitter"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/adapters/adapter/v3"
+	"github.com/technance-foundation/socket.io/adapters/postgres/v3/emitter"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // Default configuration values for PostgresAdapterOptions.

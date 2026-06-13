@@ -1,13 +1,13 @@
-module github.com/zishang520/socket.io/adapters/unix/v3
+module github.com/technance-foundation/socket.io/adapters/unix/v3
 
 go 1.26.0
 
 require (
+	github.com/technance-foundation/socket.io/adapters/adapter/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/servers/socket/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/v3 v3.0.5-beta.1
 	github.com/vmihailenco/msgpack/v5 v5.4.1
-	github.com/zishang520/socket.io/adapters/adapter/v3 v3.0.4
-	github.com/zishang520/socket.io/parsers/socket/v3 v3.0.4
-	github.com/zishang520/socket.io/servers/socket/v3 v3.0.4
-	github.com/zishang520/socket.io/v3 v3.0.4
 )
 
 require (
@@ -19,10 +19,10 @@ require (
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.60.0 // indirect
 	github.com/quic-go/webtransport-go v0.10.0 // indirect
+	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5-beta.1 // indirect
+	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5-beta.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
-	github.com/zishang520/socket.io/parsers/engine/v3 v3.0.4 // indirect
-	github.com/zishang520/socket.io/servers/engine/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.53.0 // indirect
 	golang.org/x/net v0.56.0 // indirect
 	golang.org/x/sys v0.46.0 // indirect
@@ -30,10 +30,10 @@ require (
 )
 
 replace (
-	github.com/zishang520/socket.io/adapters/adapter/v3 => ../../adapters/adapter
-	github.com/zishang520/socket.io/parsers/engine/v3 => ../../parsers/engine
-	github.com/zishang520/socket.io/parsers/socket/v3 => ../../parsers/socket
-	github.com/zishang520/socket.io/servers/engine/v3 => ../../servers/engine
-	github.com/zishang520/socket.io/servers/socket/v3 => ../../servers/socket
-	github.com/zishang520/socket.io/v3 => ../../
+	github.com/technance-foundation/socket.io/adapters/adapter/v3 => ../../adapters/adapter
+	github.com/technance-foundation/socket.io/parsers/engine/v3 => ../../parsers/engine
+	github.com/technance-foundation/socket.io/parsers/socket/v3 => ../../parsers/socket
+	github.com/technance-foundation/socket.io/servers/engine/v3 => ../../servers/engine
+	github.com/technance-foundation/socket.io/servers/socket/v3 => ../../servers/socket
+	github.com/technance-foundation/socket.io/v3 => ../../
 )

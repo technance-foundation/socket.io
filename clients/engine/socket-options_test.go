@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/quic-go/quic-go"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 func TestSocketOptions(t *testing.T) {

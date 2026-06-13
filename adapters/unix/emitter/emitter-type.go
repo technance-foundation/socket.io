@@ -3,7 +3,7 @@
 package emitter
 
 import (
-	"github.com/zishang520/socket.io/servers/socket/v3"
+	"github.com/technance-foundation/socket.io/servers/socket/v3"
 )
 
 type (

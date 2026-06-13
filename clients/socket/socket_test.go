@@ -6,9 +6,9 @@ import (
 	"net"
 	"time"
 
-	client "github.com/zishang520/socket.io/clients/socket/v3"
-	server "github.com/zishang520/socket.io/servers/socket/v3"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	client "github.com/technance-foundation/socket.io/clients/socket/v3"
+	server "github.com/technance-foundation/socket.io/servers/socket/v3"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // allocatePort allocates a random available port on 127.0.0.1

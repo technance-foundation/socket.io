@@ -7,12 +7,12 @@ import (
 	"net/url"
 	"sync/atomic"
 
-	"github.com/zishang520/socket.io/parsers/engine/v3/packet"
-	"github.com/zishang520/socket.io/parsers/engine/v3/parser"
-	"github.com/zishang520/socket.io/servers/engine/v3/transports"
-	"github.com/zishang520/socket.io/v3/pkg/queue"
-	"github.com/zishang520/socket.io/v3/pkg/request"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/parsers/engine/v3/packet"
+	"github.com/technance-foundation/socket.io/parsers/engine/v3/parser"
+	"github.com/technance-foundation/socket.io/servers/engine/v3/transports"
+	"github.com/technance-foundation/socket.io/v3/pkg/queue"
+	"github.com/technance-foundation/socket.io/v3/pkg/request"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // polling implements the HTTP long-polling transport for Engine.IO.

@@ -4,8 +4,8 @@ package parser
 import (
 	"errors"
 
-	"github.com/zishang520/socket.io/parsers/engine/v3/packet"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/parsers/engine/v3/packet"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // Parser defines the interface for Engine.IO packet encoding and decoding.

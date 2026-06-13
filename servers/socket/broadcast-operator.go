@@ -7,10 +7,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/zishang520/socket.io/parsers/socket/v3/parser"
-	"github.com/zishang520/socket.io/v3/pkg/log"
-	"github.com/zishang520/socket.io/v3/pkg/types"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
+	"github.com/technance-foundation/socket.io/v3/pkg/log"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 var broadcast_log = log.NewLog("socket.io:broadcast-operator")

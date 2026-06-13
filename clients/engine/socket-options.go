@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/quic-go/quic-go"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // SocketOptionsInterface defines the configuration interface for Socket connections.

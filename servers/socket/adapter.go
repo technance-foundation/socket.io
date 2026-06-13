@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/zishang520/socket.io/parsers/socket/v3/parser"
-	"github.com/zishang520/socket.io/v3/pkg/types"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 // AdapterBuilder is a builder for creating Adapter instances.

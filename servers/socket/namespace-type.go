@@ -3,7 +3,7 @@ package socket
 import (
 	"time"
 
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 type NamespaceMiddleware = func(*Socket, func(*ExtendedError))

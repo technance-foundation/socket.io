@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zishang520/socket.io/adapters/adapter/v3"
-	"github.com/zishang520/socket.io/adapters/mongo/v3"
-	"github.com/zishang520/socket.io/parsers/socket/v3/parser"
-	"github.com/zishang520/socket.io/servers/socket/v3"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/adapters/adapter/v3"
+	"github.com/technance-foundation/socket.io/adapters/mongo/v3"
+	"github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
+	"github.com/technance-foundation/socket.io/servers/socket/v3"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 

@@ -4,8 +4,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/zishang520/socket.io/v3/pkg/types"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 // CustomClusterRequest represents a custom request in the cluster with tracking for missing responses.

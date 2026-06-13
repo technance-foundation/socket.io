@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/zishang520/socket.io/adapters/adapter/v3"
-	"github.com/zishang520/socket.io/servers/socket/v3"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/adapters/adapter/v3"
+	"github.com/technance-foundation/socket.io/servers/socket/v3"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 func TestNotificationMessage_Marshal(t *testing.T) {

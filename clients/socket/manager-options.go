@@ -3,9 +3,9 @@ package socket
 import (
 	"time"
 
-	"github.com/zishang520/socket.io/clients/engine/v3"
-	"github.com/zishang520/socket.io/parsers/socket/v3/parser"
-	"github.com/zishang520/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/clients/engine/v3"
+	"github.com/technance-foundation/socket.io/parsers/socket/v3/parser"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
 )
 
 // ManagerOptionsInterface defines the configuration interface for a Socket.IO Manager.

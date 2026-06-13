@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/zishang520/socket.io/v3/pkg/types"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 // Placeholder represents a placeholder for binary data in JSON serialization.

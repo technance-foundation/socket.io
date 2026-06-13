@@ -1,4 +1,4 @@
-module github.com/zishang520/socket.io/clients/engine/v3
+module github.com/technance-foundation/socket.io/clients/engine/v3
 
 go 1.26.0
 
@@ -6,9 +6,9 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/quic-go/quic-go v0.60.0
 	github.com/quic-go/webtransport-go v0.10.0
-	github.com/zishang520/socket.io/parsers/engine/v3 v3.0.4
-	github.com/zishang520/socket.io/servers/engine/v3 v3.0.4
-	github.com/zishang520/socket.io/v3 v3.0.4
+	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/v3 v3.0.5-beta.1
 )
 
 require (
@@ -28,7 +28,7 @@ require (
 )
 
 replace (
-	github.com/zishang520/socket.io/parsers/engine/v3 => ../../parsers/engine
-	github.com/zishang520/socket.io/servers/engine/v3 => ../../servers/engine
-	github.com/zishang520/socket.io/v3 => ../../
+	github.com/technance-foundation/socket.io/parsers/engine/v3 => ../../parsers/engine
+	github.com/technance-foundation/socket.io/servers/engine/v3 => ../../servers/engine
+	github.com/technance-foundation/socket.io/v3 => ../../
 )

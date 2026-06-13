@@ -15,14 +15,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/zishang520/socket.io/parsers/engine/v3/packet"
-	"github.com/zishang520/socket.io/parsers/engine/v3/parser"
-	"github.com/zishang520/socket.io/servers/engine/v3/transports"
-	"github.com/zishang520/socket.io/v3/pkg/events"
-	"github.com/zishang520/socket.io/v3/pkg/queue"
-	"github.com/zishang520/socket.io/v3/pkg/slices"
-	"github.com/zishang520/socket.io/v3/pkg/types"
-	"github.com/zishang520/socket.io/v3/pkg/utils"
+	"github.com/technance-foundation/socket.io/parsers/engine/v3/packet"
+	"github.com/technance-foundation/socket.io/parsers/engine/v3/parser"
+	"github.com/technance-foundation/socket.io/servers/engine/v3/transports"
+	"github.com/technance-foundation/socket.io/v3/pkg/events"
+	"github.com/technance-foundation/socket.io/v3/pkg/queue"
+	"github.com/technance-foundation/socket.io/v3/pkg/slices"
+	"github.com/technance-foundation/socket.io/v3/pkg/types"
+	"github.com/technance-foundation/socket.io/v3/pkg/utils"
 )
 
 // SocketWithoutUpgrade provides a WebSocket-like interface to connect to an Engine.IO server.
@@ -39,9 +39,9 @@ import (
 // Example usage:
 //
 //	import (
-//		"github.com/zishang520/socket.io/clients/engine/v3"
-//		"github.com/zishang520/socket.io/clients/engine/v3/transports"
-//		"github.com/zishang520/socket.io/v3/pkg/types"
+//		"github.com/technance-foundation/socket.io/clients/engine/v3"
+//		"github.com/technance-foundation/socket.io/clients/engine/v3/transports"
+//		"github.com/technance-foundation/socket.io/v3/pkg/types"
 //	)
 //
 //	func main() {
