@@ -90,6 +90,80 @@ func TestQueue_TryCloseAndEnqueue(t *testing.T) {
 	}
 }
 
+func TestQueue_TryCloseDropsPendingTasks(t *testing.T) {
+	q := New()
+
+	started := make(chan struct{})
+	release := make(chan struct{})
+	q.Enqueue(func() {
+		close(started)
+		<-release
+	})
+	<-started
+
+	var executed atomic.Int32
+	for range 100 {
+		q.Enqueue(func() {
+			executed.Add(1)
+		})
+	}
+
+	q.TryClose()
+	close(release)
+
+	select {
+	case <-q.done:
+	case <-time.After(time.Second):
+		t.Fatal("Queue did not stop after TryClose")
+	}
+
+	if got := executed.Load(); got != 0 {
+		t.Fatalf("expected TryClose to drop pending tasks, got %d executions", got)
+	}
+}
+
+func TestQueue_ReleasesLargeBackingArrayWhenIdle(t *testing.T) {
+	q := New()
+	defer q.Close()
+
+	started := make(chan struct{})
+	release := make(chan struct{})
+	q.Enqueue(func() {
+		close(started)
+		<-release
+	})
+	<-started
+
+	for range 2048 {
+		q.Enqueue(func() {})
+	}
+
+	done := make(chan struct{})
+	q.Enqueue(func() {
+		close(done)
+	})
+
+	close(release)
+
+	select {
+	case <-done:
+	case <-time.After(time.Second):
+		t.Fatal("Queue did not drain")
+	}
+
+	q.mu.Lock()
+	tasksLen := len(q.tasks)
+	tasksCap := cap(q.tasks)
+	q.mu.Unlock()
+
+	if tasksLen != 0 {
+		t.Fatalf("expected empty queue, got len=%d", tasksLen)
+	}
+	if tasksCap != 0 {
+		t.Fatalf("expected large idle backing array to be released, got cap=%d", tasksCap)
+	}
+}
+
 func TestQueue_SizeEmpty(t *testing.T) {
 	q := New()
 	defer q.Close()

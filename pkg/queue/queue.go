@@ -12,6 +12,8 @@ import (
 
 var queueLog = log.NewLog("engine:events")
 
+const idleTaskBufferCap = 16
+
 // Queue serializes function execution through a single goroutine.
 // It uses an unbounded slice backed by a condition variable to ensure
 // Enqueue never blocks the caller.
@@ -26,7 +28,7 @@ type Queue struct {
 // New creates a new Queue and starts the internal consumer goroutine.
 func New() *Queue {
 	q := &Queue{
-		tasks: make([]func(), 0, 1024),
+		tasks: make([]func(), 0),
 		done:  make(chan struct{}),
 	}
 	q.cond = sync.NewCond(&q.mu)
@@ -72,6 +74,7 @@ func (q *Queue) loop() {
 			return
 		}
 		q.execute(task)
+		task = nil
 	}
 }
 
@@ -94,8 +97,12 @@ func (q *Queue) get() (func(), bool) {
 	q.tasks = q.tasks[1:]
 
 	if len(q.tasks) == 0 {
-		// Reset cursor when queue logically empties out to reuse backing array space
-		q.tasks = q.tasks[:0]
+		// Do not keep large burst buffers alive while the queue is idle.
+		if cap(q.tasks) > idleTaskBufferCap {
+			q.tasks = nil
+		} else {
+			q.tasks = q.tasks[:0]
+		}
 	}
 
 	return task, true
@@ -130,9 +137,11 @@ func (q *Queue) IsShuttingDown() bool {
 }
 
 // TryClose shuts down the Queue without waiting for completion.
+// Pending tasks are discarded.
 func (q *Queue) TryClose() {
 	q.mu.Lock()
 	q.shuttingDown = true
+	q.tasks = nil
 	q.cond.Broadcast()
 	q.mu.Unlock()
 }
