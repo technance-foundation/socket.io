@@ -4,10 +4,10 @@ go 1.26.0
 
 require (
 	github.com/alicebob/miniredis/v2 v2.37.0
-	github.com/technance-foundation/socket.io/adapters/adapter/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/servers/socket/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/adapters/adapter/v3 v3.0.5
+	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5
+	github.com/technance-foundation/socket.io/servers/socket/v3 v3.0.5
+	github.com/technance-foundation/socket.io/v3 v3.0.5
 	github.com/valkey-io/valkey-go v1.0.75
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 )
@@ -21,8 +21,8 @@ require (
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.60.0 // indirect
 	github.com/quic-go/webtransport-go v0.10.0 // indirect
-	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5-beta.1 // indirect
-	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5-beta.1 // indirect
+	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5 // indirect
+	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/yuin/gopher-lua v1.1.1 // indirect

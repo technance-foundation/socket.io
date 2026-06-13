@@ -5,10 +5,10 @@ go 1.26.0
 require (
 	github.com/andybalholm/brotli v1.2.1
 	github.com/klauspost/compress v1.18.6
-	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5
+	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5
+	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5
+	github.com/technance-foundation/socket.io/v3 v3.0.5
 )
 
 require (

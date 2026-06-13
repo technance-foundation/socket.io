@@ -6,9 +6,9 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/quic-go/quic-go v0.60.0
 	github.com/quic-go/webtransport-go v0.10.0
-	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5
+	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5
+	github.com/technance-foundation/socket.io/v3 v3.0.5
 )
 
 require (

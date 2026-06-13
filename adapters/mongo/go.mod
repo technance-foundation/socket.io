@@ -3,10 +3,10 @@ module github.com/technance-foundation/socket.io/adapters/mongo/v3
 go 1.26.0
 
 require (
-	github.com/technance-foundation/socket.io/adapters/adapter/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/servers/socket/v3 v3.0.5-beta.1
-	github.com/technance-foundation/socket.io/v3 v3.0.5-beta.1
+	github.com/technance-foundation/socket.io/adapters/adapter/v3 v3.0.5
+	github.com/technance-foundation/socket.io/parsers/socket/v3 v3.0.5
+	github.com/technance-foundation/socket.io/servers/socket/v3 v3.0.5
+	github.com/technance-foundation/socket.io/v3 v3.0.5
 	go.mongodb.org/mongo-driver/v2 v2.6.0
 )
 
@@ -19,8 +19,8 @@ require (
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.60.0 // indirect
 	github.com/quic-go/webtransport-go v0.10.0 // indirect
-	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5-beta.1 // indirect
-	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5-beta.1 // indirect
+	github.com/technance-foundation/socket.io/parsers/engine/v3 v3.0.5 // indirect
+	github.com/technance-foundation/socket.io/servers/engine/v3 v3.0.5 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
