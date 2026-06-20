@@ -3,7 +3,6 @@
 package queue
 
 import (
-	"runtime"
 	"runtime/debug"
 	"sync"
 
@@ -34,7 +33,6 @@ func New() *Queue {
 	q.cond = sync.NewCond(&q.mu)
 
 	go q.loop()
-	runtime.SetFinalizer(q, func(q *Queue) { q.TryClose() })
 	return q
 }
 
